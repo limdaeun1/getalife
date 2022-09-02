@@ -11,6 +11,7 @@ const Login = () => {
       <button>로그인</button>
       <button>회원가입</button>
       <p>다른 계정으로 로그인</p>
+      <button>카카오 로그인</button>
     </>
   );
 };
