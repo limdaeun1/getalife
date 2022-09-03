@@ -14,6 +14,7 @@ const Main = () => {
   return (
     <>
       <Header />
+      
      
       <CardRank />
       <CardList />
