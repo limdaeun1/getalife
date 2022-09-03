@@ -1,15 +1,15 @@
-import React from 'react'
-import Header from '../components/Header';
+import React from "react";
+import Header from "../components/Header";
 import Layout from "../components/Layout";
+import Signup from "../components/Signup";
 
 const Signuppage = () => {
   return (
     <>
-      <Header/>
-      <Layout>
-      </Layout>
-      </>
-  )
-}
+      <Header />
+      <Signup />
+    </>
+  );
+};
 
-export default Signuppage
+export default Signuppage;

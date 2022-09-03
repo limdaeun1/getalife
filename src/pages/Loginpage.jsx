@@ -7,9 +7,7 @@ const Loginpage = () => {
   return (
     <>
       <Header />
-      <Layout>
-        <Login />
-      </Layout>
+      <Login />
     </>
   );
 };
