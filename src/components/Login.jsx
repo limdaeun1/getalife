@@ -1,24 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+// import {loginBD} from "경로"
 
-const Login = () => {
+function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [logid, setLogId] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = () => {
+    // if (logid === "" || password === "" ){
+    // window.alert("아이디, 비밀번호 모두 입력해주세요.")}
+    // dispatch(loginDB(logid, password))
+  };
+
   return (
     <StContainer>
       <StContain>
         <StText>LOGIN</StText>
-        <StInput type="text" placeholder="아이디" />
+        <StInput
+          type="text"
+          placeholder="아이디"
+          id="id"
+          onChange={(e) => {
+            setLogId(e.target.value);
+          }}
+          required
+        />
 
-        <StInput type="password" placeholder="비밀번호" />
+        <StInput
+          type="password"
+          placeholder="비밀번호"
+          id="pw"
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+          //minlength={8} _8자 이상 입력하세요.
+          required
+        />
 
-        <StButton>로그인</StButton>
+        <StButton onClick={handleLogin}>로그인</StButton>
 
-        <StButton>회원가입</StButton>
+        <StButton
+          onClick={() => {
+            navigate("/signup");
+          }}
+        >
+          회원가입
+        </StButton>
         <Stp>다른 계정으로 로그인</Stp>
         <StBKakao>카카오로 시작하기</StBKakao>
       </StContain>
     </StContainer>
   );
-};
+}
 
 export default Login;
 

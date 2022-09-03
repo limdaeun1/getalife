@@ -1,7 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [logid, setLogId] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPasswor2] = useState("");
+  const [nickname, setNickname] = useState("");
+
+  const logidCheck = (logid) => {
+    //
+  };
+
+  const passwordCheck = (password) => {
+    let reg1 = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$/;
+    return reg1.test(password);
+  };
+
+  const nicknameCheck = (nickname) => {
+    let reg2 = /^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]).{1,10}$/; //"닉네임은 한글, 영문, 숫자만 가능하며 2-10자리 가능. "
+    return reg2.test(nickname);
+  };
   return (
     <StContainer>
       <StContain>
@@ -11,6 +34,7 @@ const Signup = () => {
         {/* <button>중복확인</button> */}
 
         <StInput type="password" placeholder="비밀번호 입력" />
+        <StInput type="password" placeholder="비밀번호 확인" />
 
         <StInput type="text" placeholder="닉네임 입력" />
         <StButton>회원가입</StButton>
@@ -31,7 +55,7 @@ const StContain = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  height: 60vh;
+  height: 70vh;
   width: 30vw;
   background: rgba(255, 255, 255, 0.15);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.164);
