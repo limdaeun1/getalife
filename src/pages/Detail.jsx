@@ -4,8 +4,14 @@ import Layout from "../components/Layout";
 import CommentList from '../components/comments/CommentList';
 import Addcomment from '../components/comments/Addcomment';
 import styled from 'styled-components';
+import { useNavigate } from "react-router-dom";
+
 
 const Detail = () => {
+
+  
+  const navigate = useNavigate();
+
   return (<>
     <Header/>
     <Layout>
