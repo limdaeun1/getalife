@@ -2,52 +2,28 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-//import signupDB
+import { signupDB } from '../redux/modules/user';
+
 
 const Signup = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+  const [logid, setLogId] = useState('');
+  const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
+  const [nickname, setNickname] = useState('');
   const navigate = useNavigate();
 
-  const [logid, setLogId] = useState("");
-  const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
-  const [nickname, setNickname] = useState("");
 
-  const logidCheck = (logid) => {
-    let reg = /^[a-z]+[a-z0-9]{5,19}$/g; // 영문자로 시작하는 영문자 또는 숫자 6~20자
-    return reg.test(logid);
-  };
+  const handleSignUp = () => {
 
-  const passwordCheck = (password) => {
-    let reg1 = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/; // 최소 8 자, 하나 이상의 대문자, 하나의 소문자 및 하나의 숫자
-    return reg1.test(password);
-  };
-
-  const nicknameCheck = (nickname) => {
-    let reg2 = /^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]).{1,10}$/; // 한글, 영문, 숫자만 가능하며 2-10자리 가능
-    return reg2.test(nickname);
-  }; // test _대응되는 문자열이 있는지 검사하는 메소드, true OR false를 반환
-
-  const handleSignUp = (e) => {
-    e.preventDefault();
-    if (!logid || !password || !password2 || !nickname) {
-      // ?? : pass2에 왜 ! 쓰는지
-      return alert("내용을 입력하세요");
-    }
-    if (!logidCheck(logid)) {
-      return alert("아이디를 형식에 맞게 입력하세요");
-    }
-    if (!passwordCheck(password)) {
-      return alert("비밀번호를 형식에 맞게 입력학세요");
-    }
-    if (!nicknameCheck(nickname)) {
-      return alert("닉네임을 형식에 맞게 입력하세요");
-    }
     if (password !== password2) {
-      return alert("비밀번호와 비밀번호 확인은 같아야 합니다");
-    }
-    // dispatch(SignupDB(logid, nickname, password));
-  };
+      return window.alert('비밀번호와 비밀번호 확인은 같아야 합니다.')
+  }
+    dispatch(signupDB(logid , nickname, password, password2))
+    navigate("/login")
+  
+  }
+   
 
   return (
     <StContainer>
@@ -63,7 +39,7 @@ const Signup = () => {
           }}
           required
         />
-        {/* <button>중복확인</button> */}
+        
 
         <StInput
           id="pw"
@@ -95,7 +71,7 @@ const Signup = () => {
           required
         />
 
-        <StButton type="submit" onClick={() => navigate("/login")}>
+        <StButton type="submit" onClick={handleSignUp}>
           회원가입
         </StButton>
       </StContain>

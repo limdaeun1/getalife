@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-// import {loginBD} from "경로"
+import { loginDB } from "../redux/modules/user";
+
 
 function Login() {
   const dispatch = useDispatch();
@@ -12,9 +13,12 @@ function Login() {
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    // if (logid === "" || password === "" ){
-    // window.alert("아이디, 비밀번호 모두 입력해주세요.")}
-    // dispatch(loginDB(logid, password))
+    
+    if (logid === "" || password === "" ){
+    window.alert("아이디, 비밀번호 모두 입력해주세요.")}
+
+
+    dispatch(loginDB(logid, password))
   };
 
   return (
@@ -38,7 +42,6 @@ function Login() {
           onChange={(e) => {
             setPassword(e.target.value);
           }}
-          //minlength={8} _8자 이상 입력하세요.
           required
         />
 
