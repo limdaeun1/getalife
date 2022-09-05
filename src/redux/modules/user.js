@@ -33,10 +33,10 @@ export const signupDB = ( logid ,nickname, password , password2) => {
       })
       
       .then((response) => {
-        console.log(response)
         if(response.data.success == true) 
         { window.alert("회원가입이 완료되었습니다.")
-          window.location.assign("/login");}
+          window.location.assign("/login");
+        }
         else{
         const errormessage = response.data.error.message
         window.alert(`${errormessage}`);        //서버안에 있는 error내용으로 실패했을때 서버에서 보내주는 error메세지 띄움 
@@ -57,28 +57,26 @@ export const loginDB = (logid, password) => {
     await axios
     
       .post(url + "/api/member/login", {
-        
         nickname: logid,
         password: password,
-      },{ withCredentials: true })
+      },)
       .then((response) => {
-        console.log(response)
         if(response.data.success == true) {
-        localStorage.setItem("token", response);     //첫번째 인자:key값 , 두번째 인자:value값
+        localStorage.setItem("token", response.headers['authorization']);
+        localStorage.setItem("refresh-token", response.headers['refresh-token']);     //첫번째 인자:key값 , 두번째 인자:value값
         localStorage.setItem("nickname", logid);
-        // localStorage.setItem("name", response.data.data.name)
+        localStorage.setItem("name", response.data.data.name)
         dispatch(
           logInUser({                      //state에 user와 is_login 을 넣어주는 함수
             nickname: logid,                         
             name: response.data.data.name,
-            
-          })
+            })
         )
-        window.alert(`${response.data.data.nickname}님 환영합니다!`)
+        window.alert(`${response.data.data.name}님 환영합니다!`)
         
-        // window.location.assign("/")}
+        window.location.assign("/")}
         
-        }
+          
         else {
           const errormessage = response.data.error.message
           window.alert(`${errormessage}`);
@@ -91,6 +89,18 @@ export const loginDB = (logid, password) => {
       })
   }
 }
+
+//모든 행동을 할때마다 현재 아이디를 localStorage에서 계속 꺼내줌   //스토어에 userid -> 새로고침했을때(스토어가 비었을때 아이디를사용해주기위해서)
+// export const loginCheck = () => {
+//   return function (dispatch) {
+//     const userId = localStorage.getItem("userId");
+//     const nickName = localStorage.getItem("nickName");
+//     if (userId) {
+//       dispatch(logInUser({ userId, nickName }));
+//     }
+
+//   };
+// };
 
 
 //reducer
@@ -107,6 +117,7 @@ export default function reducer(state = initialState, action = {}) {
         
       default:
         return state;
+        
  }
   
 }
