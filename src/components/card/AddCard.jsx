@@ -34,7 +34,7 @@ const AddCard = () => {
 
     formData.append("imageUrl", file);      //formdata안에 서버에 보낼 데이터 넣기
     formData.append("title", title);
-    formData.append("content", content);
+    formData.append("content", content);   //blob으로 바꿔줘야댄다
     console.log("formData", formData);
 
     dispatch(addPostDB(formData));
