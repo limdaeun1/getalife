@@ -1,11 +1,13 @@
-import { createStore, combineReducers, applyMiddleware, compose } from "redux";
-import thunk from "redux-thunk";
-import user from "./modules/user";
-// import post from "./modules/post";
+import { configureStore } from "@reduxjs/toolkit";
+import post from "./modules/postSlice";
+import comment from "./modules/commentSlice";
 
-const middlewares = [thunk];
-const rootReducer = combineReducers({ user });
-const enhancer = applyMiddleware(...middlewares);
-const store = createStore(rootReducer, enhancer);
+
+const store = configureStore({
+  reducer: {
+		post,
+    comment,
+  },
+});
 
 export default store;
