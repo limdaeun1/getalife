@@ -34,7 +34,7 @@ export const addPostDB = (formData) => {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `${localStorage.getItem("token")}`,   // 함수가 아닌{} 문자열을 반환시켜줘야하기 떄문에 `${}`
-          ['Refresh-token']: `${localStorage.getItem("refresh-token")}`  
+          ['Refresh-token']:`${localStorage.getItem("refresh-token")}`  
         },
       })
       .then((response) => {
