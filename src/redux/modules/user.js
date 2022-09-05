@@ -1,30 +1,33 @@
 import axios from "axios";
+
+
+
 //actions
 const LOGIN = "user/LOGIN";    //user 파일의 LOGIN?
 
 //initalstate
 const initialState = {
-  user: { userid: null, nickname: null },
+  user: { nickname: null, name: null },
   is_login: false,    // 로그인하면 is_login 상태가 true가 됨 -> 페이지에서 로그인상태여야 보이는것들 구현할때 사용
 };
 
 
 //actions creators
-
 export function logInUser(user) {     
   return { type: LOGIN, user:user };    //각각 action.type   / action.user (userid,nickname)  /return안에 들어있는게 action 그자체
 } 
 
 // middlewares 
-const url = "url";
+const url = "http://13.125.102.125:8080";
 
+//회원가입
 export const signupDB = ( logid ,nickname, password , password2) => {
   return async function (dispatch, getState) {
     
     await axios
       .post(url + "/api/member/signup", {
-        userid: logid,
-        nickname: nickname,
+        nickname: logid,
+        name: nickname,
         password: password,
         passwordConfirm: password2    
       })
@@ -48,34 +51,39 @@ export const signupDB = ( logid ,nickname, password , password2) => {
   };
 };
 
+//로그인
 export const loginDB = (logid, password) => {
   return async function (dispatch) {    
     await axios
+    
       .post(url + "/api/member/login", {
-        userid: logid,
+        
+        nickname: logid,
         password: password,
-      })
+      },{ withCredentials: true })
       .then((response) => {
-       if(response.data.success == true) {
-        localStorage.setItem("token", response.data.token);     //첫번째 인자:key값 , 두번째 인자:value값
-        localStorage.setItem("userid", logid);
-        localStorage.setItem("nickname", response.data.nickname)
+        console.log(response)
+        if(response.data.success == true) {
+        localStorage.setItem("token", response);     //첫번째 인자:key값 , 두번째 인자:value값
+        localStorage.setItem("nickname", logid);
+        // localStorage.setItem("name", response.data.data.name)
         dispatch(
-          logInUser({
-            userid: logid,
-            nickname: response.data.nickname,
+          logInUser({                      //state에 user와 is_login 을 넣어주는 함수
+            nickname: logid,                         
+            name: response.data.data.name,
+            
           })
         )
-        window.alert(`${response.data.nickname}님 환영합니다!`)
-        window.location.assign("/")}
-
+        window.alert(`${response.data.data.nickname}님 환영합니다!`)
+        
+        // window.location.assign("/")}
+        
+        }
         else {
           const errormessage = response.data.error.message
           window.alert(`${errormessage}`);
         }})
-        
-        
-        .catch((error) => {
+         .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         window.alert("로그인에 실패했습니다! 다시 시도해주세요")
@@ -87,13 +95,19 @@ export const loginDB = (logid, password) => {
 
 //reducer
 export default function reducer(state = initialState, action = {}) {
+  
   switch (action.type) {
+     
     case LOGIN:
+      
       state.user = {...action.user} ;    //state.user = {userid:.. , nickname:..}
       state.is_login = true;
+      
       return state;
+        
       default:
         return state;
-  }
+ }
+  
 }
 
