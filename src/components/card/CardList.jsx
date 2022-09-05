@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const CardList = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const postList = useSelector((state) => state.post.postList);
+    // const postList = useSelector((state) => state.post.postList);
 
   
     return (

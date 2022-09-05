@@ -12,7 +12,7 @@ const Write = () => {
     <Layout>
        <UploadSection>
        <BorderSection>
-          <AddFile/>
+          {/* <AddFile/> */}
           <AddCard/>
         </BorderSection>
         </UploadSection >

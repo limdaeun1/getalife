@@ -33,6 +33,7 @@ export const signupDB = ( logid ,nickname, password , password2) => {
       })
       
       .then((response) => {
+        console.log(response)
         if(response.data.success == true) 
         { window.alert("회원가입이 완료되었습니다.")
           window.location.assign("/login");
