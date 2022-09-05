@@ -17,7 +17,7 @@ export function logInUser(user) {
   return { type: LOGIN, user:user };    //각각 action.type   / action.user (userid,nickname)  /return안에 들어있는게 action 그자체
 } 
 
-// middlewares 
+// middlewares ------------------------------------------------------------------------------------------------------------------------------------------------------------
 const url = "http://13.125.102.125:8080";
 
 //회원가입
@@ -102,6 +102,7 @@ export const loginDB = (logid, password) => {
 //   };
 // };
 
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 //reducer
 export default function reducer(state = initialState, action = {}) {
