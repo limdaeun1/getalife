@@ -1,25 +1,28 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 
 const Addcomment = () => {
   return (
     <CommentWrap>
-            <div>
-              <Input placeholder="댓글 달기..."/>
-              <MainBtn>입력</MainBtn>
-            </div>
+      <div>
+        <Input placeholder="댓글 달기..." />
+        <MainBtn>입력</MainBtn>
+      </div>
     </CommentWrap>
+  );
+};
 
-)}
-
-export default Addcomment
+export default Addcomment;
 
 const CommentWrap = styled.div`
-max-width: 500px;
-@media screen and (width: 900) {
-max-width: 500px;}
-p {color: red;}
-`
+  max-width: 500px;
+  @media screen and (width: 900) {
+    max-width: 500px;
+  }
+  p {
+    color: red;
+  }
+`;
 const MainBtn = styled.button`
   margin: auto 5px;
   padding: 10px 15px;
