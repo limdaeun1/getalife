@@ -1,5 +1,5 @@
 import React from 'react'
-import AddFile from '../components/AddFile';
+
 import AddCard from '../components/card/AddCard';
 import Header from '../components/Header';
 import Layout from "../components/Layout";
@@ -12,7 +12,7 @@ const Write = () => {
     <Layout>
        <UploadSection>
        <BorderSection>
-          {/* <AddFile/> */}
+          
           <AddCard/>
         </BorderSection>
         </UploadSection >

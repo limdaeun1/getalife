@@ -1,15 +1,28 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import styled from 'styled-components'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate ,useParams } from 'react-router-dom'
 import { useDispatch } from "react-redux";
-import { addPostDB } from "../../redux/modules/post";
+import { addPostDB , updatePostDB } from "../../redux/modules/post";
 
 const AddCard = () => {
+
+  const post_list = {  //////postOne 을 가져오는중 ////////////예비 데이터 ///////
+    postId: "5",
+    createdAt: "00.00.00",
+    title: "다은",
+    content: "다은짱",
+    nickName: "다은짱짱",
+    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQgS4kVPisr1lqZ0KCl31tHthtk69NsLoAr6ivYeJC&s",
+  }
+  // const post_list = useSelector((state) => state.post.postOne);
   const dispatch = useDispatch();
-  
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [preview, setPreview] = useState("");
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const is_edit = id ? true : false;   //id가 같으면? 있으면? is_edit이 true //detail에서 본인이여야만 수정들어오니까 wirte:id가 true 되는듯
+  const [title, setTitle] = useState(is_edit ? post_list.title : "");
+  const [content, setContent] = useState(is_edit ? post_list.content : "");
+  const [preview, setPreview] = useState(is_edit ? post_list.imageUrl : "");
+ 
   
   const uploadImg = (event) => {
     const file = document.querySelector("#fileinput").files[0];  // input에 들어간 파일 가져오기 //file객체는 <input> 태그를 이용해 받은 파일들의 결과로 반환된 FileList객체로부터 얻어옴
@@ -29,16 +42,55 @@ const AddCard = () => {
       window.alert('모두 입력해 주세요!')
     }
 
+    let req = {
+      title: title,
+      content: content,
+    };
+    let json = JSON.stringify(req);
+
     const file = document.querySelector("#fileinput").files[0];     // input에 들어간 파일 가져오기 // 파일 인풋에 들어간 파일들은 files 라는 리스트로 저장된다.
-    const formData = new FormData();     //폼 전송을 가능하게 해주는 객체 (form태그 이용해 보내는거랑 같음 즉 HTML단이 아닌 자바스크립트 단에서 폼 데이터를 다루는 객체)
+    const formdata = new FormData();     //폼 전송을 가능하게 해주는 객체 (form태그 이용해 보내는거랑 같음 즉 HTML단이 아닌 자바스크립트 단에서 폼 데이터를 다루는 객체)
 
-    formData.append("imageUrl", file);      //formdata안에 서버에 보낼 데이터 넣기
-    formData.append("title", title);
-    formData.append("content", content);   //blob으로 바꿔줘야댄다
-    console.log("formData", formData);
+    const titleblob = new Blob([json], { type: "application/json" });  
+    formdata.append("post", titleblob);
+    const contentblob = new Blob([json], { type: "application/json" });
+    formdata.append("content", contentblob);
+    formdata.append("file", file); 
+    console.log(file)  
+    
 
-    dispatch(addPostDB(formData));
+    dispatch(addPostDB(formdata));
+    setTitle("");
+    setContent("");
+    navigate("/");
   };
+
+  const handlUpdate = () => {
+    if (content === "" || preview === "" || title === "") {      //빈칸 없게 검사
+      window.alert('모두 입력해 주세요!')
+    }
+
+    let req = {
+      title: title,
+      content: content,
+    };
+    let json = JSON.stringify(req);
+
+    const file = document.querySelector("#fileinput").files[0];
+
+    const formdata = new FormData();
+
+    const titleblob = new Blob([json], { type: "application/json" });  
+    formdata.append("post", titleblob);
+    const contentblob = new Blob([json], { type: "application/json" });
+    formdata.append("content", contentblob);
+    formdata.append("file", file); 
+    
+    dispatch(updatePostDB(formdata, id));  //보내는 아이디는 post:{id} 특정post를 수정해야되기때문
+  };
+
+
+
 
   return (
     <>
@@ -61,14 +113,18 @@ const AddCard = () => {
     <TitleInput
     type="text"
     placeholder="제목 입력..."
+    defaultValue={title}
     onChange={(e) => setTitle(e.target.value)}
     />
   <Textarea
     rows="8"
     placeholder="내용 입력..."
+    defaultValue={content}
     onChange={(e) => setContent(e.target.value)}
     />
- <Btn onClick = {handleUpload}>작성하기</Btn>
+ {is_edit ? (
+  <Btn onClick = {handlUpdate}>수정하기</Btn>)
+ : (<Btn onClick = {handleUpload}>작성하기</Btn> )}
  </>
   )
 }

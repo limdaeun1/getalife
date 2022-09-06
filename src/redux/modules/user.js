@@ -74,9 +74,9 @@ export const loginDB = (logid, password) => {
             })
         )
         window.alert(`${response.data.data.name}님 환영합니다!`)
-        
-        window.location.assign("/")}
-        
+        console.log(response)
+        // window.location.assign("/")
+          }
           
         else {
           const errormessage = response.data.error.message
@@ -91,17 +91,19 @@ export const loginDB = (logid, password) => {
   }
 }
 
-//모든 행동을 할때마다 현재 아이디를 localStorage에서 계속 꺼내줌   //스토어에 userid -> 새로고침했을때(스토어가 비었을때 아이디를사용해주기위해서)
-// export const loginCheck = () => {
-//   return function (dispatch) {
-//     const userId = localStorage.getItem("userId");
-//     const nickName = localStorage.getItem("nickName");
-//     if (userId) {
-//       dispatch(logInUser({ userId, nickName }));
-//     }
+//로그인상태 확인
+//모든 행동을 할때마다 현재 아이디를 localStorage에서 계속 꺼내줌   
+//새로고침대비 app.js에서 항상 localstorage에 user정보가 있다면 state에 넣어주고 is_login상태를 true로 만든다
+export const loginCheck = () => {
+  return function (dispatch) {
+    const nickname = localStorage.getItem("nickname");
+    const name = localStorage.getItem("name");
+    if (nickname) {
+      dispatch(logInUser({ nickname, name }));
+    }
 
-//   };
-// };
+  };
+};
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------
 
