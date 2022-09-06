@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import styled from 'styled-components'
 import { useNavigate ,useParams } from 'react-router-dom'
-import { useDispatch } from "react-redux";
+import { useDispatch , useSelector} from "react-redux";
 import { addPostDB , updatePostDB } from "../../redux/modules/post";
 
-const AddCard = () => {
 
-  const post_list = useSelector((state) => state.post.postOne); //스토어에서 수정할페이지 정보 가져옴 //수정할때 새로고침하면 다날라가는 단점이 있음
+const AddCard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams(); //주소창에서 id가져옴 //수정이면 edit/:{id} (postid)일테니까  주소창에서 가져온 id는 postid가 됨
   const is_edit = id ? true : false;   //id가 있으면? is_edit이 true //detail에서 본인이여야만 수정들어오니까 wirte:id가 true 되는듯
+  const post_list =useSelector((state) => state.post.postOne) //스토어에서 수정할페이지 정보 가져옴 //수정할때 새로고침하면 다날라가는 단점이 있음
   const [title, setTitle] = useState(is_edit ? post_list.title : "");
   const [content, setContent] = useState(is_edit ? post_list.content : "");
   const [preview, setPreview] = useState(is_edit ? post_list.imageUrl : "");

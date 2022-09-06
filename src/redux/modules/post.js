@@ -98,23 +98,20 @@ export const updatePostDB = (formdata, id) => { //postId는 params id를 받아�
   };
 };
 
+//reducer
+export default handleActions(   
+  { //스토어에 수정하고 꼭 넣어야할까? get을 서버 들려서 해주고 있는데
+    [MODIFY_POST]: (state, action) => {  //post와 (post)id 들어오는중
+    produce(state, (draft) => {
+      const index = draft.postList.findIndex(
+        (p) => p.id === action.payload.id
+      );
+      draft.postList[index] = {
+        ...draft.postList[index],
+        ...action.payload.post,
+      };
+    })}
+    },
+  initialState
+);
 
-// export default handleActions(
-//   {[MODIFY_POST]: (state, action) => {  //post와 (post)id 들어오는중
-//     produce(state, (draft) => {
-//       const index = draft.postList.findIndex(
-//         (p) => p.id === action.payload.id
-//       );
-//       draft.postList[index] = {
-//         ...draft.postList[index],
-//         ...action.payload.post,
-//       };
-//     });
-//   },
-//   initialState
-// });
-
-const actionCreators = {
- 
-};
-export default{ actionCreators };
