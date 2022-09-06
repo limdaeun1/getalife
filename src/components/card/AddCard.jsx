@@ -6,25 +6,17 @@ import { addPostDB , updatePostDB } from "../../redux/modules/post";
 
 const AddCard = () => {
 
-  const post_list = {  //////postOne 을 가져오는중 ////////////예비 데이터 ///////
-    postId: "5",
-    createdAt: "00.00.00",
-    title: "다은",
-    content: "다은짱",
-    nickName: "다은짱짱",
-    imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQgS4kVPisr1lqZ0KCl31tHthtk69NsLoAr6ivYeJC&s",
-  }
-  // const post_list = useSelector((state) => state.post.postOne);
+  const post_list = useSelector((state) => state.post.postOne); //스토어에서 수정할페이지 정보 가져옴 //수정할때 새로고침하면 다날라가는 단점이 있음
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { id } = useParams();
-  const is_edit = id ? true : false;   //id가 같으면? 있으면? is_edit이 true //detail에서 본인이여야만 수정들어오니까 wirte:id가 true 되는듯
+  const { id } = useParams(); //주소창에서 id가져옴 //수정이면 edit/:{id} (postid)일테니까  주소창에서 가져온 id는 postid가 됨
+  const is_edit = id ? true : false;   //id가 있으면? is_edit이 true //detail에서 본인이여야만 수정들어오니까 wirte:id가 true 되는듯
   const [title, setTitle] = useState(is_edit ? post_list.title : "");
   const [content, setContent] = useState(is_edit ? post_list.content : "");
   const [preview, setPreview] = useState(is_edit ? post_list.imageUrl : "");
  
-  
-  const uploadImg = (event) => {
+  //이미지 미리보기
+  const uploadImg = (event) => {  
     const file = document.querySelector("#fileinput").files[0];  // input에 들어간 파일 가져오기 //file객체는 <input> 태그를 이용해 받은 파일들의 결과로 반환된 FileList객체로부터 얻어옴
     const reader = new FileReader();    //FlieReader 객체를 이용하여 업로드된 파일을 읽을 수 있음.result 속성에 저장
     console.log(reader)
@@ -37,34 +29,33 @@ const AddCard = () => {
     };
   }
 
-  const handleUpload = () => {
+
+  //등록 버튼 이벤트
+  const handleUpload = () => {  //
     if (content === "" || preview === "" || title === "") {      //빈칸 없게 검사
-      window.alert('모두 입력해 주세요!')
-    }
+      window.alert('모두 입력해 주세요!')}
 
     let req = {
       title: title,
-      content: content,
-    };
+      content: content,};
     let json = JSON.stringify(req);
 
     const file = document.querySelector("#fileinput").files[0];     // input에 들어간 파일 가져오기 // 파일 인풋에 들어간 파일들은 files 라는 리스트로 저장된다.
-    const formdata = new FormData();     //폼 전송을 가능하게 해주는 객체 (form태그 이용해 보내는거랑 같음 즉 HTML단이 아닌 자바스크립트 단에서 폼 데이터를 다루는 객체)
-
-    const titleblob = new Blob([json], { type: "application/json" });  
+    const formdata = new FormData();                 //폼 전송을 가능하게 해주는 객체 (form태그 이용해 보내는거랑 같음 즉 HTML단이 아닌 자바스크립트 단에서 폼 데이터를 다루는 객체)
+    const titleblob = new Blob([json], { type: "application/json" });      //데이터 json으로 바꿔줌(title이랑 content만
     formdata.append("post", titleblob);
     const contentblob = new Blob([json], { type: "application/json" });
     formdata.append("content", contentblob);
     formdata.append("file", file); 
-    console.log(file)  
     
-
     dispatch(addPostDB(formdata));
     setTitle("");
     setContent("");
     navigate("/");
   };
 
+
+  //수정 버튼 이벤트
   const handlUpdate = () => {
     if (content === "" || preview === "" || title === "") {      //빈칸 없게 검사
       window.alert('모두 입력해 주세요!')
@@ -72,14 +63,11 @@ const AddCard = () => {
 
     let req = {
       title: title,
-      content: content,
-    };
+      content: content,};
     let json = JSON.stringify(req);
 
     const file = document.querySelector("#fileinput").files[0];
-
     const formdata = new FormData();
-
     const titleblob = new Blob([json], { type: "application/json" });  
     formdata.append("post", titleblob);
     const contentblob = new Blob([json], { type: "application/json" });
@@ -109,24 +97,24 @@ const AddCard = () => {
             onChange={uploadImg}
           />
           
-    </ImgSection>
-    <TitleInput
-    type="text"
-    placeholder="제목 입력..."
-    defaultValue={title}
-    onChange={(e) => setTitle(e.target.value)}
-    />
-  <Textarea
-    rows="8"
-    placeholder="내용 입력..."
-    defaultValue={content}
-    onChange={(e) => setContent(e.target.value)}
-    />
- {is_edit ? (
-  <Btn onClick = {handlUpdate}>수정하기</Btn>)
- : (<Btn onClick = {handleUpload}>작성하기</Btn> )}
- </>
-  )
+      </ImgSection>
+      <TitleInput
+      type="text"
+      placeholder="제목 입력..."
+      defaultValue={title}
+      onChange={(e) => setTitle(e.target.value)}
+      />
+    <Textarea
+      rows="8"
+      placeholder="내용 입력..."
+      defaultValue={content}
+      onChange={(e) => setContent(e.target.value)}
+      />
+  {is_edit ? (
+    <Btn onClick = {handlUpdate}>수정하기</Btn>)
+  : (<Btn onClick = {handleUpload}>작성하기</Btn> )}
+  </>
+    )
 }
 
 export default AddCard
