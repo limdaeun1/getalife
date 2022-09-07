@@ -1,72 +1,69 @@
-import React, { useEffect } from "react";
-import styled from "styled-components";
-import { useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getPostOneDB, deletePostDB } from "../redux/modules/post";
-import { getCommentListDB } from "../redux/modules/comment";
-
-import Header from "../components/Header";
+import React, { useEffect } from 'react'
+import Header from '../components/Header';
 import Layout from "../components/Layout";
-import CommentList from "../components/comments/CommentList";
-import Addcomment from "../components/comments/Addcomment";
+import CommentList from '../components/comments/CommentList';
+import Addcomment from '../components/comments/Addcomment';
+import styled from 'styled-components';
+import { useNavigate , useParams} from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { getPostOneDB , deletePostDB } from '../redux/modules/post';
+import Like from '../components/Like';
 
 const Detail = () => {
-  const post = {
-    id: 0,
-    title: "제목",
-    createAt: "날짜",
-    name: "닉네임",
-    content: "내용",
-  }; // 임시 데이터, 서버 연결 후 지울 예정
 
-  const location = useLocation(); // const postId = location.state.postId;
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {id} = useParams();      //post의 id  //새로고침해도 안날라가게 하기위해 state말고 params로 따옴
+  const userId = useSelector((state) => state.user.user.name);  //app.js에 있는 로그인상태체크 함수 덕분에 새로고침해도 계속 state에 userid가 있음
+  const post = useSelector((state) => state.post.postOne); //스토어에서 가져오기위해서는 시간필요
+  // console.log(userId) //콘솔에 바로 띄울라하면 시간차 있음 페이지에서 userid쓸려고 불러올때는 시간상 괜찮을듯?
 
-  const userId = useSelector((state) => state.user.user.userId);
-
-  const postId = post.id; // const postId = location.state.postId; _서버에서 받아와야함 //
-  //console.log(postId); // 0_가짜 데이터
-
-  // 해당 게시물과 댓글 목록 불러오기
-  useEffect(() => {
-    dispatch(getPostOneDB(postId));
-    dispatch(getCommentListDB(postId));
-  }, [dispatch, postId]);
-
-  // 게시글 삭제하기
   const deletePost = () => {
-    dispatch(deletePostDB(postId));
+    dispatch(deletePostDB(id));
   };
 
-  return (
-    <>
-      <Header />
-      <Layout>
-        <MainBody>
-          <ContentWrap>
-            <PostImg src={post.imageUrl} alt="post image" />
-            <Wrap>
-              <h2>{post.title}</h2>
-              <div>{post.createAt}</div>
-              <span>{post.name}</span>
-              {post.userId === userId && (
-                <span>
-                  <SmallBtn>수정</SmallBtn>
-                  <SmallBtn onClick={deletePost}>삭제</SmallBtn>
-                </span>
-              )}
-              <p>{post.content} _데이터 받아와야함</p>
-              <Hr />
-              <h2>댓글</h2>
-            </Wrap>
-            <Addcomment />
-            <CommentList />
-          </ContentWrap>
-        </MainBody>
-      </Layout>
-    </>
-  );
-};
+  useEffect(() => {
+    dispatch(getPostOneDB(id));
+   ;}, [dispatch, id]);
+
+
+
+  return (<>
+    <Header/>
+    <Layout>
+      <MainBody>
+        <ContentWrap>
+          <PostImg src={post.imgUrl} alt="post image" />
+          <Wrap>
+            <h2>{post.title}</h2>
+            <Likebox>
+            <Like heart={post.herat}/>
+            </Likebox>
+            <div>{post.createdAt}</div>
+            <span>{post.name}</span>
+          {/* {post.name === userId && 
+          ( */}
+            <span>
+              <SmallBtn  onClick={() => {navigate(`/edit/${id}`);
+                }}
+              >수정</SmallBtn>
+              <SmallBtn onClick={deletePost}>삭제</SmallBtn>
+            </span>
+         {/* )}  */}
+          <p>{post.content}</p>
+          
+          <Hr />
+          <h2>댓글</h2>
+          </Wrap>
+        <Addcomment />
+        <CommentList/>
+        </ContentWrap>
+      </MainBody>
+    </Layout>
+      </>
+  )
+}
+
 
 export default Detail;
 
@@ -117,4 +114,10 @@ const SmallBtn = styled.button`
   &:hover {
     color: black;
   }
+`;
+
+const Likebox = styled.div`
+  /* display: flex; */
+  float:right;
+  margin: 10px;
 `;

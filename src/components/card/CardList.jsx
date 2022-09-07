@@ -3,27 +3,30 @@ import { useSelector, useDispatch } from "react-redux";
 import Card from './Card'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom';
+import { getPostListDB } from "../../redux/modules/post";
+import Spinner from "../Spinner";
 
 const CardList = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    // const postList = useSelector((state) => state.post.postList);
+    const postList = useSelector((state) => state.post.postList);
 
+    useEffect(() => {                  //컴포넌트 실행되면 post리스트 정보 가져옴
+      dispatch(getPostListDB());
+    }, [dispatch]);
+    
+
+    if(postList.length==0) { return <Spinner/>}
   
     return (
     <>
     <MainBody>
-    <MainGrid onClick={() => navigate("/detail")}>
-    <Card onClick={() => navigate("/detail")}/>
-    {/* {postList.map((post, index) => {
-          return <Card post={post} key={index} />;
-        })} */}
-        <Card/>
-        <Card/>
-        <Card/>
-        <Card/>
-        <Card/>
-        <Card/>
+    <MainGrid >
+    
+    {postList.map((post) => {
+          return <Card post={post} key={post.id} />;
+        })}
+      
     </MainGrid>
     </MainBody>
     

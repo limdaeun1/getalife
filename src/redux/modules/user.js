@@ -74,8 +74,8 @@ export const loginDB = (logid, password) => {
             })
         )
         window.alert(`${response.data.data.name}님 환영합니다!`)
-        console.log(response)
-        // window.location.assign("/")
+        
+        window.location.assign("/")
           }
           
         else {

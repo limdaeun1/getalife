@@ -13,7 +13,7 @@ const AddCard = () => {
   const post_list =useSelector((state) => state.post.postOne) //스토어에서 수정할페이지 정보 가져옴 //수정할때 새로고침하면 다날라가는 단점이 있음
   const [title, setTitle] = useState(is_edit ? post_list.title : "");
   const [content, setContent] = useState(is_edit ? post_list.content : "");
-  const [preview, setPreview] = useState(is_edit ? post_list.imageUrl : "");
+  const [preview, setPreview] = useState("");
  
   //이미지 미리보기
   const uploadImg = (event) => {  
@@ -51,7 +51,7 @@ const AddCard = () => {
     dispatch(addPostDB(formdata));
     setTitle("");
     setContent("");
-    navigate("/");
+    
   };
 
 
