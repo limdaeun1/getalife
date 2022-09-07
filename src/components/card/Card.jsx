@@ -1,17 +1,27 @@
 import React from 'react'
 import styled from "styled-components";
+import { Navigate, useNavigate } from 'react-router-dom';
 
-const Card = () => {
+const Card = ({post}) => {
+  const navigate = useNavigate();
+
   return (
-    <CardWrap>
-    <CardImg src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA4MDdfMjAg%2FMDAxNjU5ODU1MTM5OTk2.x996AIK9wxByUxBDMC0EAfU62x7jjGQco9SRFNe4jIQg.-isWOQKwehWILiZQDB3ArtGhO2QMzoX0zzvIQ7NxbsUg.JPEG.raoncatgm%2FKakaoTalk_20220804_182629251_10.jpg&type=sc960_832" alt="card image" />
+    
+    <CardWrap onClick={() =>
+      navigate("/detail/" + post.id, {
+        state: {
+          id: post.id,
+        },
+      })
+    }>
+    <CardImg src={post.imgUrl} alt="card image" />
     <Textbox>
     <Text>
-      닉네임
-    <Date>좋아요갯수</Date>
+      {post.name}
+    <Date>{post.heart}</Date>
     </Text>
     <Title>
-      제목
+      {post.title}
     </Title>
     {/* <Text style={{ width: "100%" }}>
      내용
