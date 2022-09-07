@@ -1,35 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import post from "../../redux/modules/post";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteCommentDB } from "../../redux/modules/comment";
+import { putCommentDB } from "../../redux/modules/comment";
 
 export const Comment = ({ comment }) => {
   const dispatch = useDispatch();
 
   const commentOne = comment;
-  const id = comment.id;
-  console.log(commentOne);
+  const id = commentOne.id;
+  console.log(id);
 
   // 댓글 삭제하기
   const deleteComment = () => {
     dispatch(deleteCommentDB(id));
   };
 
-  // 댓글 수정하기 _작성해야됨
+  // 댓글 수정하기
+  const onClickUpdate = () => {
+    const content = commentRef.current.value;
+    if (content === "") {
+      setInputs({ ...inputs, help: "댓글을 입력해주세요!" });
+      return false;
+    }
+    if (content === commentObj.content) {
+      toggleUpdate();
+      return false;
+    }
+    const _commentObj = {
+      _id: commentObj._id,
+      content,
+    };
+    dispatch(putCommentDB(_commentObj));
+    setUpdate(false);
+  };
 
   return (
     <ContentWrap>
-      <span>{comment.name}</span>
+      <span>{comment.author}</span>
       <span>{comment.createAt}</span>
       <>
-        <SmallBtn
-        // onClick={() => {
-        //   navigate(`/edit/${postId}`);
-        // }}
-        >
-          수정
-        </SmallBtn>
+        <SmallBtn onClick={onClickUpdate}>수정</SmallBtn>
         <SmallBtn onClick={deleteComment}>삭제</SmallBtn>
       </>
       <div>{comment.content}</div>

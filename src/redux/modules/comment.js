@@ -6,6 +6,7 @@ import { produce } from "immer";
 const GET_COMMENT_LIST = "GET_COMMENT_LIST";
 const POST_COMMENT = "POST_COMMENT";
 const DELETE_COMMENT = "DELETE_COMMENT";
+const PUT_COMMENT = "PUT_COMMENT";
 
 // Action Creator
 const getCommentList = createAction(GET_COMMENT_LIST, (commentList) => ({
@@ -13,6 +14,7 @@ const getCommentList = createAction(GET_COMMENT_LIST, (commentList) => ({
 }));
 const postComment = createAction(POST_COMMENT, (comment) => comment);
 const deleteComment = createAction(DELETE_COMMENT, (comment) => comment);
+const putComment = createAction(PUT_COMMENT, (comment) => comment);
 
 // initialState
 const initialState = {
@@ -62,17 +64,37 @@ export const postCommentDB = (commentData) => async (dispatch) => {
 };
 
 // 댓글 삭제하기 | DELETE
-export const deleteCommentDB = (_id) => async (dispatch) => {
+export const deleteCommentDB = (id) => async (dispatch) => {
   try {
-    await axios.delete(url + "/api/auth/comment/" + { _id }, {
+    await axios.delete(url + "/api/auth/comment/" + id, {
       headers: {
-        authorization: `Bearer ${localStorage.getItem("token")}`,
+        authorization: localStorage.getItem("token"),
+        "refresh-token": localStorage.getItem("refresh-token"),
       },
-      data: _id,
+      data: id,
     });
-    dispatch(deleteComment(_id));
+    dispatch(deleteComment(id));
   } catch (error) {
     alert("댓글 삭제 중에 오류가 발생했습니다.");
+    console.log(error);
+  }
+};
+
+// 댓글 수정하기 | PUT
+export const putCommentDB = (id) => async (dispatch) => {
+  try {
+    await axios.put(
+      url + "/api/auth/comment/" + id,
+      { data: comment.content },
+      {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    dispatch(putComment(commentObj));
+  } catch (error) {
+    alert("댓글 수정 중에 오류가 발생했습니다.");
     console.log(error);
   }
 };
@@ -122,7 +144,7 @@ export default handleActions(
     [DELETE_COMMENT]: (state, { payload }) =>
       produce(state, (draft) => {
         draft.commentList = draft.commentList.filter(
-          (comment) => comment._id !== payload
+          (comment) => comment.id !== payload
         );
       }),
   },
