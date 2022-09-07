@@ -6,7 +6,6 @@ import { deleteCommentDB } from "../../redux/modules/comment";
 
 export const Comment = ({ comment }) => {
   const dispatch = useDispatch();
-  // const commentObj = { content: "실패" };
 
   const commentOne = comment;
   const id = comment.id;
