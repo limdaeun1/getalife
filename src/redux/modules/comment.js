@@ -29,6 +29,7 @@ export const getCommentListDB = (id) => async (dispatch) => {
   try {
     const { data } = await axios.get(url + `/api/comment/${id}`); // const { data } = await axios.get(url + "/comments/" + postId);
     dispatch(getCommentList(data.data));
+
   } catch (error) {
     alert("댓글을 불러오는데 실패했습니다.");
     console.log(error);
@@ -80,6 +81,7 @@ export const deleteCommentDB = (id) => async (dispatch) => {
   }
 };
 
+
 // 댓글 수정하기 | PUT
 export const putCommentDB = (_commentObj) => async (dispatch) => {
   const commentObj = {
@@ -106,34 +108,7 @@ export const putCommentDB = (_commentObj) => async (dispatch) => {
   }
 };
 
-// ----------------------- 마이페이지 -------------------------
-export const signupDB = (nickname, totalHeartNumber, totalPostNumber) => {
-  return async function (dispatch, getState) {
-    await axios
-      .post(url + "/api/auth/member/mypage", {
-        name: nickname,
-        totalHeartNumber: totalHeartNumber,
-        totalPostNumber: totalPostNumber,
-      })
 
-      .then((response) => {
-        console.log(response);
-        if (response.data.success == true) {
-          window.alert("회원가입이 완료되었습니다.");
-          window.location.assign("/login");
-        } else {
-          const errormessage = response.data.error.message;
-          window.alert(`${errormessage}`); //서버안에 있는 error내용으로 실패했을때 서버에서 보내주는 error메세지 띄움
-        }
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        window.alert("회원가입에 실패했습니다! 다시 시도해주세요"); //아예 네트워크 에러 status 다르게 들어오는경우
-        console.log(errorCode, errorMessage);
-      });
-  };
-};
 
 // Redecer
 export default handleActions(

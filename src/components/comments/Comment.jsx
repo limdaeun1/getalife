@@ -9,6 +9,7 @@ export const Comment = (comment) => {
 
   const seletedCmt = useSelector((state) => state.comment.commentList);
 
+
   const [update, setUpdate] = useState(false);
   const [inputs, setInputs] = useState("");
 
@@ -29,6 +30,7 @@ export const Comment = (comment) => {
   };
 
   // 댓글 수정하기
+
   const onClickUpdate = () => {
     console.log(inputs);
     const updatedComment = {
