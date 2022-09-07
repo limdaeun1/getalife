@@ -1,22 +1,14 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { postCommentDB } from "../../redux/modules/comment";
 
-const Addcomment = () => {
+const Addcomment = (postId) => {
   const dispatch = useDispatch();
 
-  const userId = "lyn"; //= useSelector((state) => state.user.user.userId);
-  const name = useSelector((state) => state.user.user.name);
-  const commentList = {
-    postId: 0,
-    title: "",
-    content: "",
-  }; // = useSelector((state) => state.comment.commentList);
+  const commentList = useSelector((state) => state.comment.commentList); // state 경로 나중에 다시 설정하기
 
-  const commentRef = useRef("");
   const [comment, setComment] = useState("");
-  const [help, setHelp] = useState("");
 
   // onChangeComment
   const onChangeComment = (event) => {
@@ -25,39 +17,27 @@ const Addcomment = () => {
 
   // 댓글 작성하기
   const onClickWrite = () => {
-    if (commentRef.current.value === "") {
-      setHelp("댓글을 입력해주세요!");
-      return false;
-    }
-
     const commentObj = {
-      id: 0, // 해당 게시글 아이디 확인
-      name: "닉네임",
-      userId: "", // logid ? _해당 유저 아이디 확인
-      content: commentRef.current.value,
-    }; // 원래 키 값만 있었음. 임시 데이터 넣은 것
+      postId: postId.postId,
+      content: comment,
+    };
 
     dispatch(postCommentDB(commentObj));
     setComment("");
-    setHelp("");
   };
 
   return (
     <>
-      {userId && (
-        <CommentWrap>
-          <div>
-            <Input
-              ref={commentRef}
-              value={comment}
-              onChange={onChangeComment}
-              placeholder="댓글 달기..."
-            />
-            <MainBtn onClick={onClickWrite}>입력</MainBtn>
-          </div>
-          <p>{help}</p>
-        </CommentWrap>
-      )}
+      <CommentWrap>
+        <div>
+          <Input
+            value={comment}
+            onChange={onChangeComment}
+            placeholder="댓글 달기..."
+          />
+          <MainBtn onClick={onClickWrite}>입력</MainBtn>
+        </div>
+      </CommentWrap>
 
       <CommentWrap>
         {commentList[0] ? "" : "작성된 댓글이 없습니다.🥲"}

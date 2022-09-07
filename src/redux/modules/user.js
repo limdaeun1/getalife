@@ -4,6 +4,8 @@ import axios from "axios";
 
 //actions
 const LOGIN = "user/LOGIN";    //user 파일의 LOGIN?
+const LOGOUT = "user/LOGOUT";
+
 
 //initalstate
 const initialState = {
@@ -16,6 +18,11 @@ const initialState = {
 export function logInUser(user) {     
   return { type: LOGIN, user:user };    //각각 action.type   / action.user (userid,nickname)  /return안에 들어있는게 action 그자체
 } 
+
+export function logOutUser(user) {
+  return { type: LOGOUT, user };
+}
+
 
 // middlewares ------------------------------------------------------------------------------------------------------------------------------------------------------------
 const url = "http://13.125.102.125:8080";
@@ -105,6 +112,44 @@ export const loginCheck = () => {
   };
 };
 
+//로그아웃
+export const logoutDB = () => {
+  return function (dispatch) {
+    localStorage.clear();
+    dispatch(logOutUser());
+    window.location.assign("/")
+   };
+};
+
+
+//닉네임 변경
+export const changeName = (name) => { 
+  return async function (dispatch, getState) {
+   await axios
+      .post(url + "/api/auth/member/name" , name ,  {
+        headers: {
+          "content-Type": "application/json",
+         authorization: localStorage.getItem("token"),
+         'refresh-token': localStorage.getItem("refresh-token"),
+        },
+      })
+      .then((response) => {
+        if(response.data.success == true) 
+        {window.location.assign("/mypage")
+      }
+        else{
+        const errormessage = response.data.error.message
+        window.alert(`${errormessage}`);        
+        window.location.assign("/")
+      }})
+      .catch((error) => {
+        console.log(error);
+        window.alert("수정이 실패하였습니다."); 
+        });
+  };
+};
+
+
 //------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 //reducer
@@ -113,11 +158,15 @@ export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
      
     case LOGIN:
-      
       state.user = {...action.user} ;    //state.user = {userid:.. , nickname:..}
       state.is_login = true;
-      
       return state;
+
+    case LOGOUT:
+      state.user = {};
+      state.is_login = false;
+      return state;  
+   
         
       default:
         return state;

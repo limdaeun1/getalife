@@ -23,7 +23,7 @@ const CardList = () => {
     <MainBody>
     <MainGrid >
     
-    {postList.map((post) => {
+    {postList?.map((post) => {
           return <Card post={post} key={post.id} />;
         })}
       

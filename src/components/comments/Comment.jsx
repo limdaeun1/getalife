@@ -1,38 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import post from "../../redux/modules/post";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteCommentDB } from "../../redux/modules/comment";
+import { putCommentDB } from "../../redux/modules/comment";
 
-export const Comment = ({ commentObj }) => {
+export const Comment = ({ comment }) => {
   const dispatch = useDispatch();
-  // const commentObj = { content: "실패" };
 
-  const id = post.id; // const postId = location.state.postId; _서버에서 받아와야함 //
-  //console.log(postId); // 0_가짜 데이터
+  const commentOne = comment;
+  const id = commentOne.id;
+ 
 
   // 댓글 삭제하기
   const deleteComment = () => {
     dispatch(deleteCommentDB(id));
   };
 
-  // 댓글 수정하기 _작성해야됨
+  // 댓글 수정하기
+  // const onClickUpdate = () => {
+  //   const content = commentRef.current.value;
+  //   if (content === "") {
+  //     setInputs({ ...inputs, help: "댓글을 입력해주세요!" });
+  //     return false;
+  //   }
+  //   if (content === commentObj.content) {
+  //     toggleUpdate();
+  //     return false;
+  //   }
+  //   const _commentObj = {
+  //     _id: commentObj._id,
+  //     content,
+  //   };
+  //   dispatch(putCommentDB(_commentObj));
+  //   setUpdate(false);
+  // };
 
   return (
     <ContentWrap>
-      <span>{post.name}</span>
-      <span>{post.createAt}</span>
+      <span>{comment.author}</span>
+      <span>{comment.createAt}</span>
       <>
-        <SmallBtn
-        // onClick={() => {
-        //   navigate(`/edit/${postId}`);
-        // }}
-        >
-          수정
-        </SmallBtn>
+        <SmallBtn>수정</SmallBtn>
         <SmallBtn onClick={deleteComment}>삭제</SmallBtn>
       </>
-      <div>{commentObj.content}</div>
+      <div>{comment.content}</div>
     </ContentWrap>
   );
 };

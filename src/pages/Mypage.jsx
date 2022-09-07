@@ -1,13 +1,40 @@
-import React from "react";
-import { useSelector } from "react-redux";
-
+import React, { useEffect , useState } from "react";
+import { useDispatch , useSelector } from 'react-redux';
 import Header from "../components/Header";
 import Layout from "../components/Layout";
 import styled from "styled-components";
+import { myPageDB } from "../redux/modules/post";
+import Spinner from "../components/Spinner";
+import { changeName } from "../redux/modules/user";
 
 const Mypage = () => {
-  const post = useSelector((state) => state.comment.postList);
-  console.log(post);
+  const myDB = useSelector((state) => state.post.mypageList.data);
+  const [name, setName] = useState("");
+  const [done, setDone] = useState(false);
+  
+  
+
+  
+  const dispatch = useDispatch();
+
+  useEffect(() => {                  
+    dispatch(myPageDB());
+  }, [dispatch]);
+
+  
+  const nameUpdate = () => {
+    if (name == "") {
+     return window.alert("닉네임을 입력해주세요!")
+    }
+    
+    const confirm = window.confirm("닉네임을 변경 하시겠어요?");
+      if (confirm) {
+          dispatch(changeName(name));
+        }
+      
+      setDone(!done)};
+
+
 
   return (
     <>
@@ -21,23 +48,28 @@ const Mypage = () => {
                   src="https://innertrip.co.kr/wp-content/uploads/2022/02/Try-gather-for-free-avatar.png"
                   alt="profile"
                 />
-                <h1>{post.name}</h1>
+                <h1></h1>
                 <pre> </pre>
-                <p>님</p>
+                <p>{myDB?.name}님</p>
               </Name>
               <Hr />
               <Menu>
                 <div>
                   <h3>게시글</h3>
-                  <p>0개</p>
+                  <p>{myDB?.totalPostNumber}개</p>
                 </div>
                 <div>
                   <h3>🧡</h3>
-                  <p>0개</p>
+                  <p>{myDB?.totalHeartNumber}개</p>
                 </div>
                 <Div>
-                  <button>닉네임 변경</button>
+                  {done ? <button onClick={nameUpdate} >변경 하기</button> :
+                  <button onClick={() => {setDone(!done)}} >닉네임 변경</button>}
+                  {done ? 
+                <Input onChange={(e) => { setName(e.target.value); }} />:null }
+                  
                 </Div>
+                
               </Menu>
             </Profil>
           </BorderSection>
@@ -135,4 +167,23 @@ const Div = styled.div`
   height: 100px;
   text-align: center;
   line-height: 100px;
+  
 `;
+
+const Input =styled.input`
+  width: 100px;
+  height: 17px;
+  position : relative;
+  bottom:70px;
+  border-radius: 10px;
+  border: solid 1px #ddd;
+  transition: border-color 300ms ease-in-out;
+  outline: none;
+  @media screen and (max-width: 700px) {
+    width: 77%;
+  }
+  &:focus {
+    border: solid 2px black;
+  }
+   `
+
