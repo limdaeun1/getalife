@@ -16,15 +16,7 @@ const deleteComment = createAction(DELETE_COMMENT, (comment) => comment);
 
 // initialState
 const initialState = {
-  commentList: [
-    {
-      postId: "",
-      content: "내용",
-      commentId: "id",
-      createdAt: "2022-04-04",
-      nickName: "닉네임",
-    },
-  ],
+  commentList: [],
 };
 
 //Middleware
@@ -33,8 +25,8 @@ const url = "http://13.125.102.125:8080";
 // 댓글 모두 불러오기 | GET
 export const getCommentListDB = (id) => async (dispatch) => {
   try {
-    const { data } = await axios.get(url + "/comments" + id); // const { data } = await axios.get(url + "/comments/" + postId);
-    dispatch(getCommentList(data.comments));
+    const { data } = await axios.get(url + "/api/comment/" + id); // const { data } = await axios.get(url + "/comments/" + postId);
+    dispatch(getCommentList(data.data));
   } catch (error) {
     alert("댓글을 불러오는데 실패했습니다.");
     console.log(error);

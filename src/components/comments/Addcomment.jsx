@@ -6,8 +6,7 @@ import { postCommentDB } from "../../redux/modules/comment";
 const Addcomment = (postId) => {
   const dispatch = useDispatch();
 
-  const commentList = useSelector((state) => state); // state 경로 나중에 다시 설정하기
-  console.log(commentList);
+  const commentList = useSelector((state) => state.comment.commentList); // state 경로 나중에 다시 설정하기
 
   const [comment, setComment] = useState("");
 

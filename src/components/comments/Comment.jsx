@@ -4,12 +4,13 @@ import post from "../../redux/modules/post";
 import { useDispatch } from "react-redux";
 import { deleteCommentDB } from "../../redux/modules/comment";
 
-export const Comment = ({ commentObj }) => {
+export const Comment = ({ comment }) => {
   const dispatch = useDispatch();
   // const commentObj = { content: "실패" };
 
-  const id = post.id; // const postId = location.state.postId; _서버에서 받아와야함 //
-  //console.log(postId); // 0_가짜 데이터
+  const commentOne = comment;
+  const id = comment.id;
+  console.log(commentOne);
 
   // 댓글 삭제하기
   const deleteComment = () => {
@@ -20,8 +21,8 @@ export const Comment = ({ commentObj }) => {
 
   return (
     <ContentWrap>
-      <span>{post.name}</span>
-      <span>{post.createAt}</span>
+      <span>{comment.name}</span>
+      <span>{comment.createAt}</span>
       <>
         <SmallBtn
         // onClick={() => {
@@ -32,7 +33,7 @@ export const Comment = ({ commentObj }) => {
         </SmallBtn>
         <SmallBtn onClick={deleteComment}>삭제</SmallBtn>
       </>
-      <div>{commentObj.content}</div>
+      <div>{comment.content}</div>
     </ContentWrap>
   );
 };

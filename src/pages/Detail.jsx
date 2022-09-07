@@ -59,7 +59,7 @@ const Detail = () => {
               <h2>댓글</h2>
             </Wrap>
             <Addcomment postId={id} />
-            <CommentList />
+            <CommentList postId={id} />
           </ContentWrap>
         </MainBody>
       </Layout>
