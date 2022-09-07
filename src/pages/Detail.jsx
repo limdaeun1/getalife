@@ -18,14 +18,14 @@ const Detail = () => {
   const post = useSelector((state) => state.post.postOne); //스토어에서 가져오기위해서는 시간필요
   // console.log(userId) //콘솔에 바로 띄울라하면 시간차 있음 페이지에서 userid쓸려고 불러올때는 시간상 괜찮을듯?
 
+
   const deletePost = () => {
-    dispatch(deletePostDB(id));
+    dispatch(deletePostDB(id)) 
   };
 
   useEffect(() => {
-    dispatch(getPostOneDB(id));
-   ;}, [dispatch, id]);
-
+    dispatch(getPostOneDB(id); getCommentListDB(id));
+    }, [dispatch, id]);
 
 
   return (<>

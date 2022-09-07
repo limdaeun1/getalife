@@ -1,23 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 import post from "../../redux/modules/post";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-
-import { deletePostDB } from "../../redux/modules/post";
-import comment from "../../redux/modules/comment";
+import { deleteCommentDB } from "../../redux/modules/comment";
 
 export const Comment = ({ commentObj }) => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   // const commentObj = { content: "실패" };
 
-  const postId = post.id; // const postId = location.state.postId; _서버에서 받아와야함 //
+  const id = post.id; // const postId = location.state.postId; _서버에서 받아와야함 //
   //console.log(postId); // 0_가짜 데이터
 
   // 댓글 삭제하기
-  const deletePost = () => {
-    dispatch(deletePostDB(postId));
+  const deleteComment = () => {
+    dispatch(deleteCommentDB(id));
   };
 
   // 댓글 수정하기 _작성해야됨
@@ -28,11 +24,13 @@ export const Comment = ({ commentObj }) => {
       <span>{post.createAt}</span>
       <>
         <SmallBtn
-        // onClick={() => {}} // 댓글 수정
+        // onClick={() => {
+        //   navigate(`/edit/${postId}`);
+        // }}
         >
           수정
         </SmallBtn>
-        <SmallBtn onClick={deletePost}>삭제</SmallBtn>
+        <SmallBtn onClick={deleteComment}>삭제</SmallBtn>
       </>
       <div>{commentObj.content}</div>
     </ContentWrap>
