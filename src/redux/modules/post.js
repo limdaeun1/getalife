@@ -8,6 +8,8 @@ import { produce } from "immer";
 const MODIFY_POST = "MODIFY_POST";
 const GET_POST_LIST = "GET_POST_LIST";
 const GET_POST_ONE = "GET_POST_ONE";
+const GET_POST_RANK_LIST = "GET_POST_RANK_LIST";
+const GET_MY_PAGE = "GET_MY_PAGE";
 
 //Action Creator
 const modifyPost = createAction(MODIFY_POST, (post, id) => ({   //post는 formData를 받아온것
@@ -16,6 +18,8 @@ const modifyPost = createAction(MODIFY_POST, (post, id) => ({   //post는 formDa
 }));
 const getPostList = createAction(GET_POST_LIST, (postList) => ({ postList }));
 const getPostOne = createAction(GET_POST_ONE, (postOne) => ({ postOne }));
+const getPostRanklist = createAction(GET_POST_RANK_LIST, (rankList) => ({ rankList }));
+const getMypage = createAction(GET_MY_PAGE, (mypageList) => ({ mypageList}));
 
 //Initial State
 const initialState = {
@@ -44,6 +48,8 @@ const initialState = {
       heart:"",
     },
   ],
+  rankList:[],
+  mypageList:{},
 };
 
 //Middleware
@@ -166,6 +172,61 @@ export const getPostOneDB = (id) => async (dispatch) => {
   }
 };
 
+// 랭킹 게시글 가져오기 | GET
+export const getPostRank = () => async (dispatch) => {
+  try {
+    const { data } = await axios.get(url + "/api/post/ranking");
+    dispatch(getPostRanklist(data.data));
+  } catch (error) {
+    alert("게시물을 불러오는 중에 오류가 발생했습니다.");
+    console.log(error);
+  }
+};
+
+//마이페이지
+export const myPageDB = () => {
+  return async function (dispatch) {
+    await axios
+      .get(url + "/api/auth/member/mypage" , {
+        headers: {
+          authorization: localStorage.getItem("token"),
+         'refresh-token': localStorage.getItem("refresh-token"),
+        },
+      })
+      .then((response) => {
+        dispatch(getMypage(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+        window.alert("에러 발생.");
+        window.location.assign("/")
+      });
+  };
+};
+
+//게시글 좋아요 상태 바꾸기
+export const editLikeAX = (id) => {
+  return async function (dispatch, getState) {
+    await axios
+      .post(url + "/api/auth/post/heart/" + id, {}, {
+        // withCredentials: true,  // 여부에따라 401오류 500오류
+        headers: {
+          authorization: localStorage.getItem("token"),
+         'refresh-token': localStorage.getItem("refresh-token"),
+        },
+      })
+      .then((response) => {
+        const like_state = {
+          heartState: response.data.data,
+          }; //지워도됨
+          })
+      .catch((error) => {
+        console.log(error);
+        window.alert("에러 발생.")
+        window.location.assign("/")
+      });
+  };
+};
 
 
 //reducer
@@ -192,10 +253,22 @@ export default handleActions(
       produce(state, (draft) => {
           draft.postOne = payload.postOne;
       }),
+
+      [GET_POST_RANK_LIST]: (state,{ payload }) =>
+      produce(state, (draft) => {
+        draft.rankList = payload.rankList;
+        }),  
+
+      [GET_MY_PAGE]: (state,{ payload }) =>
+      produce(state, (draft) => {
+          draft.mypageList = payload.mypageList;
+      }),    
+ 
         
     },
-  initialState
+  initialState 
 );
+
 
 const actionCreators = {
   getPostListDB,

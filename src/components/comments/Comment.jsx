@@ -9,7 +9,7 @@ export const Comment = ({ comment }) => {
 
   const commentOne = comment;
   const id = commentOne.id;
-  console.log(id);
+ 
 
   // 댓글 삭제하기
   const deleteComment = () => {
@@ -17,30 +17,30 @@ export const Comment = ({ comment }) => {
   };
 
   // 댓글 수정하기
-  const onClickUpdate = () => {
-    const content = commentRef.current.value;
-    if (content === "") {
-      setInputs({ ...inputs, help: "댓글을 입력해주세요!" });
-      return false;
-    }
-    if (content === commentObj.content) {
-      toggleUpdate();
-      return false;
-    }
-    const _commentObj = {
-      _id: commentObj._id,
-      content,
-    };
-    dispatch(putCommentDB(_commentObj));
-    setUpdate(false);
-  };
+  // const onClickUpdate = () => {
+  //   const content = commentRef.current.value;
+  //   if (content === "") {
+  //     setInputs({ ...inputs, help: "댓글을 입력해주세요!" });
+  //     return false;
+  //   }
+  //   if (content === commentObj.content) {
+  //     toggleUpdate();
+  //     return false;
+  //   }
+  //   const _commentObj = {
+  //     _id: commentObj._id,
+  //     content,
+  //   };
+  //   dispatch(putCommentDB(_commentObj));
+  //   setUpdate(false);
+  // };
 
   return (
     <ContentWrap>
       <span>{comment.author}</span>
       <span>{comment.createAt}</span>
       <>
-        <SmallBtn onClick={onClickUpdate}>수정</SmallBtn>
+        <SmallBtn>수정</SmallBtn>
         <SmallBtn onClick={deleteComment}>삭제</SmallBtn>
       </>
       <div>{comment.content}</div>
