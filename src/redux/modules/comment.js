@@ -27,7 +27,7 @@ const url = "http://13.125.102.125:8080";
 // 댓글 모두 불러오기 | GET
 export const getCommentListDB = (id) => async (dispatch) => {
   try {
-    const { data } = await axios.get(url + "/api/comment/" + id); // const { data } = await axios.get(url + "/comments/" + postId);
+    const { data } = await axios.get(url + `/api/comment/${id}`); // const { data } = await axios.get(url + "/comments/" + postId);
     dispatch(getCommentList(data.data));
   } catch (error) {
     alert("댓글을 불러오는데 실패했습니다.");
@@ -81,14 +81,21 @@ export const deleteCommentDB = (id) => async (dispatch) => {
 };
 
 // 댓글 수정하기 | PUT
-export const putCommentDB = (id) => async (dispatch) => {
+export const putCommentDB = (_commentObj) => async (dispatch) => {
+  const commentObj = {
+    commentId: _commentObj.commentId,
+    content: _commentObj.content,
+    postId: _commentObj.postId,
+  };
+
   try {
     await axios.put(
-      url + "/api/auth/comment/" + id,
-      { data: comment.content },
+      url + `/api/auth/comment/${commentObj.commentId}`,
+      { postId: commentObj.postId, content: commentObj.content },
       {
         headers: {
-          authorization: `Bearer ${localStorage.getItem("token")}`,
+          authorization: localStorage.getItem("token"),
+          "refresh-token": localStorage.getItem("refresh-token"),
         },
       }
     );
@@ -146,6 +153,17 @@ export default handleActions(
         draft.commentList = draft.commentList.filter(
           (comment) => comment.id !== payload
         );
+      }),
+    [PUT_COMMENT]: (state, { payload }) =>
+      produce(state, (draft) => {
+        draft.commentList = state.commentList.map((comment) => {
+          console.log(comment.id, payload.id, payload);
+          if (comment.id === payload.id) {
+            return { ...comment, content: payload.content };
+          } else {
+            return comment;
+          }
+        });
       }),
   },
   initialState

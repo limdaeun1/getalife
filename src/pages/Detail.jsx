@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getPostOneDB, deletePostDB } from "../redux/modules/post";
-import { getCommentListDB } from "../redux/modules/comment";
+
 import Like from "../components/Like";
 
 const Detail = () => {
