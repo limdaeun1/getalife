@@ -13,9 +13,9 @@ const CommentList = () => {
   console.log(commentList);
 
   // 해당 게시물과 댓글 목록 불러오기
-  useEffect(() => {
-    dispatch(getCommentListDB(id));
-  }, [dispatch, id]);
+  // useEffect(() => {
+  //   dispatch(getCommentListDB(id));
+  // }, [dispatch, id]);
 
   return (
     <div>

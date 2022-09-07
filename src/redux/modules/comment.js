@@ -42,26 +42,28 @@ export const getCommentListDB = (id) => async (dispatch) => {
 };
 
 // 댓글 작성하기 | POST
-export const postCommentDB = (_commentObj) => async (dispatch) => {
+export const postCommentDB = (commentData) => async (dispatch) => {
   const commentObj = {
-    postId: _commentObj.id, // 게시글 아이디
-    name: _commentObj.name, // 닉네임(도 요청에 넣어야하는지, api설계에는 없음)
-    content: _commentObj.content, // 내용
+    postId: commentData.postId,
+    content: commentData.content,
   };
   try {
     const { data } = await axios.post(url + "/api/auth/comment", commentObj, {
       headers: {
-        authorization: `Bearer ${localStorage.getItem("token")}`,
+        // "content-Type": "multipart/form-data",
+        authorization: localStorage.getItem("token"),
+        "refresh-token": localStorage.getItem("refresh-token"),
       },
     });
-    dispatch(
-      postComment({
-        ...commentObj,
-        createdAt: data.createdAt,
-        _id: data._id,
-        userId: _commentObj.userId,
-      })
-    );
+    // dispatch(
+    //   postComment({
+    //     ...commentObj,
+    //     createdAt: data.createdAt,
+    //     _id: data._id,
+    //     userId: commentObj.userId,
+    //   })
+    // );
+    console.log(commentData);
   } catch (error) {
     alert("댓글 작성 중에 오류가 발생했습니다.");
     console.log(error);
