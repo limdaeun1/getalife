@@ -1,22 +1,45 @@
-import React from 'react'
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
+import post from "../../redux/modules/post";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
-const Comment = () => {
+import { deletePostDB } from "../../redux/modules/post";
+import comment from "../../redux/modules/comment";
+
+export const Comment = ({ commentObj }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  // const commentObj = { content: "실패" };
+
+  const postId = post.id; // const postId = location.state.postId; _서버에서 받아와야함 //
+  //console.log(postId); // 0_가짜 데이터
+
+  // 댓글 삭제하기
+  const deletePost = () => {
+    dispatch(deletePostDB(postId));
+  };
+
+  // 댓글 수정하기 _작성해야됨
+
   return (
     <ContentWrap>
-    <span>닉네임</span>
-    <span className="time">날짜</span>
+      <span>{post.name}</span>
+      <span>{post.createAt}</span>
       <>
-        <SmallBtn> 수정</SmallBtn>
-        <SmallBtn >삭제</SmallBtn>
+        <SmallBtn
+        // onClick={() => {}} // 댓글 수정
+        >
+          수정
+        </SmallBtn>
+        <SmallBtn onClick={deletePost}>삭제</SmallBtn>
       </>
-    <div>내용</div>
-   </ContentWrap>
-);
+      <div>{commentObj.content}</div>
+    </ContentWrap>
+  );
 };
 
-
-export default Comment
+export default Comment;
 
 const ContentWrap = styled.div`
   max-width: 500px;

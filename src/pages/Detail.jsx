@@ -11,7 +11,6 @@ import Like from '../components/Like';
 
 const Detail = () => {
 
-  
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {id} = useParams();      //post의 id  //새로고침해도 안날라가게 하기위해 state말고 params로 따옴
@@ -65,12 +64,15 @@ const Detail = () => {
   )
 }
 
-export default Detail
+
+export default Detail;
 
 const MainBody = styled.div`
   width: 70%;
   margin: 10px auto;
-  @media screen and (max-width: 900px) {width: 95%;}
+  @media screen and (max-width: 900px) {
+    width: 95%;
+  }
 `;
 
 const ContentWrap = styled.article`
@@ -82,10 +84,10 @@ const ContentWrap = styled.article`
 `;
 
 const Wrap = styled.div`
-  
   max-width: 500px;
   @media screen and (width: 900) {
-    max-width: 500px;}
+    max-width: 500px;
+  }
   div {
     color: silver;
   }
