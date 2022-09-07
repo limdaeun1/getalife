@@ -6,7 +6,6 @@ import { postCommentDB } from "../../redux/modules/comment";
 const Addcomment = (postId) => {
   const dispatch = useDispatch();
 
-  const userId = useSelector((state) => state.user.user.userId);
   const commentList = useSelector((state) => state); // state 경로 나중에 다시 설정하기
   console.log(commentList);
 
@@ -20,7 +19,7 @@ const Addcomment = (postId) => {
   // 댓글 작성하기
   const onClickWrite = () => {
     const commentObj = {
-      postId: postId,
+      postId: postId.postId,
       content: comment,
     };
 

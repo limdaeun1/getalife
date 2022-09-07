@@ -50,20 +50,19 @@ export const postCommentDB = (commentData) => async (dispatch) => {
   try {
     const { data } = await axios.post(url + "/api/auth/comment", commentObj, {
       headers: {
-        // "content-Type": "multipart/form-data",
         authorization: localStorage.getItem("token"),
         "refresh-token": localStorage.getItem("refresh-token"),
       },
     });
-    // dispatch(
-    //   postComment({
-    //     ...commentObj,
-    //     createdAt: data.createdAt,
-    //     _id: data._id,
-    //     userId: commentObj.userId,
-    //   })
-    // );
-    console.log(commentData);
+
+    dispatch(
+      postComment({
+        postId: commentObj.postId,
+        name: data.data.author,
+        content: data.data.content,
+        id: data.data.id,
+      })
+    );
   } catch (error) {
     alert("댓글 작성 중에 오류가 발생했습니다.");
     console.log(error);
@@ -127,6 +126,7 @@ export default handleActions(
       produce(state, (draft) => {
         draft.commentList.unshift(payload);
       }),
+
     [DELETE_COMMENT]: (state, { payload }) =>
       produce(state, (draft) => {
         draft.commentList = draft.commentList.filter(
