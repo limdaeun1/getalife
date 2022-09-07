@@ -27,9 +27,9 @@ const url = "http://13.125.102.125:8080";
 // 댓글 모두 불러오기 | GET
 export const getCommentListDB = (id) => async (dispatch) => {
   try {
-    const { data } = await axios.get(url + "/api/comment/" + id); // const { data } = await axios.get(url + "/comments/" + postId);
-    dispatch(getCommentList(data.data))
-    console.log(data.data);
+    const { data } = await axios.get(url + `/api/comment/${id}`); // const { data } = await axios.get(url + "/comments/" + postId);
+    dispatch(getCommentList(data.data));
+
   } catch (error) {
     alert("댓글을 불러오는데 실패했습니다.");
     console.log(error);
@@ -82,6 +82,33 @@ export const deleteCommentDB = (id) => async (dispatch) => {
 };
 
 
+// 댓글 수정하기 | PUT
+export const putCommentDB = (_commentObj) => async (dispatch) => {
+  const commentObj = {
+    commentId: _commentObj.commentId,
+    content: _commentObj.content,
+    postId: _commentObj.postId,
+  };
+
+  try {
+    await axios.put(
+      url + `/api/auth/comment/${commentObj.commentId}`,
+      { postId: commentObj.postId, content: commentObj.content },
+      {
+        headers: {
+          authorization: localStorage.getItem("token"),
+          "refresh-token": localStorage.getItem("refresh-token"),
+        },
+      }
+    );
+    dispatch(putComment(commentObj));
+  } catch (error) {
+    alert("댓글 수정 중에 오류가 발생했습니다.");
+    console.log(error);
+  }
+};
+
+
 
 // Redecer
 export default handleActions(
@@ -101,6 +128,17 @@ export default handleActions(
         draft.commentList = draft.commentList.filter(
           (comment) => comment.id !== payload
         );
+      }),
+    [PUT_COMMENT]: (state, { payload }) =>
+      produce(state, (draft) => {
+        draft.commentList = state.commentList.map((comment) => {
+          console.log(comment.id, payload.id, payload);
+          if (comment.id === payload.id) {
+            return { ...comment, content: payload.content };
+          } else {
+            return comment;
+          }
+        });
       }),
   },
   initialState
