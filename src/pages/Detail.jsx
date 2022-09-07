@@ -24,18 +24,18 @@ const Detail = () => {
 
   const userId = useSelector((state) => state.user.user.userId);
 
-  const postId = post.id; // const postId = location.state.postId; _서버에서 받아와야함 //
+  const id = post.id; // const postId = location.state.postId; _서버에서 받아와야함 //
   //console.log(postId); // 0_가짜 데이터
 
   // 해당 게시물과 댓글 목록 불러오기
   useEffect(() => {
-    dispatch(getPostOneDB(postId));
-    dispatch(getCommentListDB(postId));
-  }, [dispatch, postId]);
+    dispatch(getPostOneDB(id));
+    dispatch(getCommentListDB(id));
+  }, [dispatch, id]);
 
   // 게시글 삭제하기
   const deletePost = () => {
-    dispatch(deletePostDB(postId));
+    dispatch(deletePostDB(id));
   };
 
   return (

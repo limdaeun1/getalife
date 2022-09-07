@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { postCommentDB, getCommentListDB } from "../../redux/modules/comment";
+import { postCommentDB } from "../../redux/modules/comment";
 
 const Addcomment = () => {
   const dispatch = useDispatch();
@@ -14,7 +14,7 @@ const Addcomment = () => {
     content: "",
   }; // = useSelector((state) => state.comment.commentList);
 
-  const commentRef = useRef(""); // 잘 안 먹히고 있는 것 같음
+  const commentRef = useRef("");
   const [comment, setComment] = useState("");
   const [help, setHelp] = useState("");
 
@@ -31,7 +31,7 @@ const Addcomment = () => {
     }
 
     const commentObj = {
-      postId: 0, // 해당 게시글 아이디 확인
+      id: 0, // 해당 게시글 아이디 확인
       name: "닉네임",
       userId: "", // logid ? _해당 유저 아이디 확인
       content: commentRef.current.value,
