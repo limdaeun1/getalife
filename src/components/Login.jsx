@@ -17,12 +17,10 @@ function Login() {
     dispatch(loginDB(logid, password))
   };
 
-  const REST_API_KEY = "~~";
-  const REDIRECT_URI =  "http://localhost:3000/auth/kakao/callback";
+
 
   const handleLoginkko = () => {
-  window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-
+  window.location.href = 'https://kauth.kakao.com/oauth/authorize?client_id=aaf36c3edbc0e0aa8cdf939e4892eced&redirect_uri=http://13.125.102.125:8080/api/member/kakao&response_type=code'
   };
 
 

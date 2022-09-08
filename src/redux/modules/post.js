@@ -11,6 +11,7 @@ const GET_POST_ONE = "GET_POST_ONE";
 const GET_POST_RANK_LIST = "GET_POST_RANK_LIST";
 const GET_MY_PAGE = "GET_MY_PAGE";
 
+
 //Action Creator
 const modifyPost = createAction(MODIFY_POST, (post, id) => ({   //post는 formData를 받아온것
   post,
@@ -20,6 +21,7 @@ const getPostList = createAction(GET_POST_LIST, (postList) => ({ postList }));
 const getPostOne = createAction(GET_POST_ONE, (postOne) => ({ postOne }));
 const getPostRanklist = createAction(GET_POST_RANK_LIST, (rankList) => ({ rankList }));
 const getMypage = createAction(GET_MY_PAGE, (mypageList) => ({ mypageList}));
+
 
 //Initial State
 const initialState = {
@@ -32,7 +34,8 @@ const initialState = {
     name: "",
     imgUrl: "",
     heart:"",
-    commentResponseDtoList:""
+    commentResponseDtoList:"",
+    like:"",
 
   },
   postList: [
@@ -205,7 +208,7 @@ export const myPageDB = () => {
 };
 
 //게시글 좋아요 상태 바꾸기
-export const editLikeAX = (id) => {
+export const editLikeAX = (id,num) => {
   return async function (dispatch, getState) {
     await axios
       .post(url + "/api/auth/post/heart/" + id, {}, {
@@ -216,13 +219,11 @@ export const editLikeAX = (id) => {
         },
       })
       .then((response) => {
-        const like_state = {
-          heartState: response.data.data,
-          }; //지워도됨
-          })
+        window.location.href = window.location.href;})
+        
       .catch((error) => {
         console.log(error);
-        window.alert("에러 발생.")
+        window.alert("에러 발생. 재로그인 해주세요")
         window.location.assign("/")
       });
   };
@@ -264,7 +265,7 @@ export default handleActions(
           draft.mypageList = payload.mypageList;
       }),    
  
-        
+     
     },
   initialState 
 );

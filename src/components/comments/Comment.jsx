@@ -8,8 +8,7 @@ export const Comment = (comment) => {
   const dispatch = useDispatch();
 
   const seletedCmt = useSelector((state) => state.comment.commentList);
-
-  console.log(seletedCmt)
+  const userId = useSelector((state) => state.user.user.nickname)
   const [update, setUpdate] = useState(false);
   const [inputs, setInputs] = useState("");
 
@@ -18,10 +17,8 @@ export const Comment = (comment) => {
 
   // input 상태 관리
   const onChangeInput = (event) => {
-    console.log(event);
-
     setInputs(event.target.value);
-    console.log(inputs);
+   
   };
 
   // 수정 영역 토글하기
@@ -38,7 +35,6 @@ export const Comment = (comment) => {
       postId: post.id,
       content: inputs,
     };
-    console.log(updatedComment);
 
     dispatch(putCommentDB(updatedComment));
     setUpdate(false);
@@ -48,15 +44,17 @@ export const Comment = (comment) => {
   const deleteComment = () => {
     dispatch(deleteCommentDB(id));
   };
-  console.log(comment);
+  
   return (
     <ContentWrap>
-      <span>{comment.comment.author}</span>
+      <span>{comment.comment.name}</span>
       <span>{comment.comment.createAt}</span>
+      {comment.comment.nickName=== userId && (
       <>
         <SmallBtn onClick={toggleUpdate}>{update ? "닫기" : "수정"}</SmallBtn>
         <SmallBtn onClick={deleteComment}>삭제</SmallBtn>
       </>
+      )}
       <div>{comment.comment.content}</div>
       {update ? (
         <>

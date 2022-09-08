@@ -5,7 +5,7 @@ import Heart from "../Img/Heart.png";
 import emptyHeart from "../Img/emptyHeart.png";
 
 const Like = ({ heart, onClick }) => {
-  const heart_url = heart ? Heart : emptyHeart;
+  const heart_url = heart ? emptyHeart : Heart;
   // console.log(heart);
 
   return <HeartI src={heart_url} onClick={onClick} />;
