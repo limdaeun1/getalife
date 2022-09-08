@@ -132,8 +132,8 @@ export default handleActions(
     [PUT_COMMENT]: (state, { payload }) =>
       produce(state, (draft) => {
         draft.commentList = state.commentList.map((comment) => {
-          console.log(comment.id, payload.id, payload);
-          if (comment.id === payload.id) {
+          console.log(comment.id, payload.commentId);
+          if (comment.id === payload.commentId) {
             return { ...comment, content: payload.content };
           } else {
             return comment;

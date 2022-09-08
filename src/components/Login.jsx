@@ -12,13 +12,6 @@ function Login() {
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-
-    if (logid === "" || password === "") {
-      window.alert("아이디, 비밀번호 모두 입력해주세요.");
-    }
-
-    dispatch(loginDB(logid, password));
-
     if (logid === "" || password === "" ){
     window.alert("아이디, 비밀번호 모두 입력해주세요.")}
     dispatch(loginDB(logid, password))
