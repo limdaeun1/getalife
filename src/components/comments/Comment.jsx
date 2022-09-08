@@ -9,7 +9,7 @@ export const Comment = (comment) => {
 
   const seletedCmt = useSelector((state) => state.comment.commentList);
 
-
+  console.log(seletedCmt)
   const [update, setUpdate] = useState(false);
   const [inputs, setInputs] = useState("");
 
