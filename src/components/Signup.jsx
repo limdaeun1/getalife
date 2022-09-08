@@ -2,28 +2,23 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { signupDB } from '../redux/modules/user';
-
+import { signupDB } from "../redux/modules/user";
 
 const Signup = () => {
-  const dispatch = useDispatch()
-  const [logid, setLogId] = useState('');
-  const [password, setPassword] = useState('');
-  const [password2, setPassword2] = useState('');
-  const [nickname, setNickname] = useState('');
+  const dispatch = useDispatch();
+  const [logid, setLogId] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [nickname, setNickname] = useState("");
   const navigate = useNavigate();
 
-
   const handleSignUp = () => {
-
     if (password !== password2) {
-      return window.alert('비밀번호와 비밀번호 확인은 같아야 합니다.')
-  }
-    dispatch(signupDB(logid , nickname, password, password2))
-    navigate("/login")
-  
-  }
-   
+      return window.alert("비밀번호와 비밀번호 확인은 같아야 합니다.");
+    }
+    dispatch(signupDB(logid, nickname, password, password2));
+    navigate("/login");
+  };
 
   return (
     <StContainer>
@@ -39,7 +34,6 @@ const Signup = () => {
           }}
           required
         />
-        
 
         <StInput
           id="pw"
@@ -84,7 +78,7 @@ export default Signup;
 const StContainer = styled.div`
   width: 100%;
   height: 100vh;
-  background-color: #607bc7;
+  background: url("—Pngtree—retro pixel christmas illustration background_960176.jpg");
 `;
 
 const StContain = styled.div`

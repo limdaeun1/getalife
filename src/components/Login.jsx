@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginDB } from "../redux/modules/user";
 
-
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -13,12 +12,11 @@ function Login() {
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    
-    if (logid === "" || password === "" ){
-    window.alert("아이디, 비밀번호 모두 입력해주세요.")}
+    if (logid === "" || password === "") {
+      window.alert("아이디, 비밀번호 모두 입력해주세요.");
+    }
 
-
-    dispatch(loginDB(logid, password))
+    dispatch(loginDB(logid, password));
   };
 
   return (
@@ -66,7 +64,7 @@ export default Login;
 const StContainer = styled.div`
   width: 100%;
   height: 100vh;
-  background-color: #607bc7;
+  background: url("—Pngtree—retro pixel christmas illustration background_960176.jpg");
 `;
 
 const StContain = styled.div`
