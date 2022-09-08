@@ -72,7 +72,7 @@ const Detail = () => {
               <Hr />
               <h2>댓글</h2>
             </Wrap>
-            <Addcomment postId={id} />
+            {post.name === userId && <Addcomment postId={id} />}
             <CommentList postId={id} />
           </ContentWrap>
         </MainBody>
