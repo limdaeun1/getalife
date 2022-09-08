@@ -13,13 +13,18 @@ function Login() {
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    
     if (logid === "" || password === "" ){
     window.alert("아이디, 비밀번호 모두 입력해주세요.")}
-
-
     dispatch(loginDB(logid, password))
   };
+
+  const REST_API_KEY = "~~";
+  const REDIRECT_URI =  "http://localhost:3000/auth/kakao/callback";
+
+  const handleLoginkko = () => {
+  window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  };
+
 
   return (
     <StContainer>
@@ -55,7 +60,7 @@ function Login() {
           회원가입
         </StButton>
         <Stp>다른 계정으로 로그인</Stp>
-        <StBKakao>카카오로 시작하기</StBKakao>
+        <StBKakao onClick={handleLoginkko}>카카오로 시작하기</StBKakao>
       </StContain>
     </StContainer>
   );
