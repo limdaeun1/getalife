@@ -1,4 +1,4 @@
-import React, { useEffect , useState} from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Layout from "../components/Layout";
 import CommentList from "../components/comments/CommentList";
@@ -19,12 +19,10 @@ const Detail = () => {
   const is_Login = useSelector((state) => state.user.is_login);
   // console.log(userId) //콘솔에 바로 띄울라하면 시간차 있음 페이지에서 userid쓸려고 불러올때는 시간상 괜찮을듯?
   const heart = useSelector((state) => state.post.postOne.heart);
- 
-  
 
   useEffect(() => {
     dispatch(getPostOneDB(id));
-  }, [dispatch,id]);
+  }, [dispatch, id]);
 
   const deletePost = () => {
     dispatch(deletePostDB(id));
@@ -32,15 +30,11 @@ const Detail = () => {
 
   const toggleLike = (id) => {
     if (is_Login) {
-      dispatch(editLikeAX(id))
-     
+      dispatch(editLikeAX(id));
     } else {
       window.alert("로그인 후 좋아요를 눌러주세요!");
-      }
+    }
   };
-
-
-
 
   return (
     <>
@@ -52,24 +46,26 @@ const Detail = () => {
             <Wrap>
               <h2>{post.title}</h2>
               <Likebox>
-                <Like  
-                      onClick={() => {toggleLike(id);}} />
+                <Like
+                  onClick={() => {
+                    toggleLike(id);
+                  }}
+                />
                 <p>{heart}</p>
               </Likebox>
               <div>{post.createdAt}</div>
               <span>{post.name}</span>
-              {post.name === userId && 
-          (
-              <span>
-                <SmallBtn
-                  onClick={() => {
-                    navigate(`/edit/${id}`);
-                  }}
-                >
-                  수정
-                </SmallBtn>
-                <SmallBtn onClick={deletePost}>삭제</SmallBtn>
-              </span>
+              {post.name === userId && (
+                <span>
+                  <SmallBtn
+                    onClick={() => {
+                      navigate(`/edit/${id}`);
+                    }}
+                  >
+                    수정
+                  </SmallBtn>
+                  <SmallBtn onClick={deletePost}>삭제</SmallBtn>
+                </span>
               )}
               <p>{post.content}</p>
 
