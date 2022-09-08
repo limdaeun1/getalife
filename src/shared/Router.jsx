@@ -7,6 +7,7 @@ import Mypage from "../pages/Mypage";
 import Signuppage from "../pages/Signuppage";
 import Write from "../pages/Write";
 import { useSelector } from "react-redux";
+import Kakao from "../components/Kakao";
 
 const Router = () => {
 
@@ -27,6 +28,7 @@ const Router = () => {
       
         <Route path="detail/:id" element={<Detail />} />
         <Route path="/" element={<Main />} />
+        <Route path="/token" element={<Kakao />} />
         
       </Routes>
     </BrowserRouter>

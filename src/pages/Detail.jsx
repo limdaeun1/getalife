@@ -10,6 +10,7 @@ import { getPostOneDB, deletePostDB } from "../redux/modules/post";
 import Like from "../components/Like";
 import { editLikeAX } from "../redux/modules/post";
 
+let num = 0
 const Detail = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const Detail = () => {
   const is_Login = useSelector((state) => state.user.is_login);
   // console.log(userId) //콘솔에 바로 띄울라하면 시간차 있음 페이지에서 userid쓸려고 불러올때는 시간상 괜찮을듯?
   const heart = useSelector((state) => state.post.postOne.heart);
+  const [like, setLike] = useState(false);
 
   useEffect(() => {
     dispatch(getPostOneDB(id));
@@ -28,14 +30,19 @@ const Detail = () => {
     dispatch(deletePostDB(id));
   };
 
+  
+  
   const toggleLike = (id) => {
     if (is_Login) {
-      dispatch(editLikeAX(id));
+      
+     
+      dispatch(editLikeAX(id,num));
     } else {
       window.alert("로그인 후 좋아요를 눌러주세요!");
     }
+   num++
   };
-
+  
   return (
     <>
       <Header />

@@ -58,9 +58,10 @@ export const postCommentDB = (commentData) => async (dispatch) => {
         id: data.data.id,
       })
     );
+    window.location.href = window.location.href;
   } catch (error) {
     alert("댓글 작성 중에 오류가 발생했습니다.");
-    console.log(error);
+    
   }
 };
 
@@ -132,8 +133,7 @@ export default handleActions(
     [PUT_COMMENT]: (state, { payload }) =>
       produce(state, (draft) => {
         draft.commentList = state.commentList.map((comment) => {
-          console.log(comment.id, payload.commentId);
-          if (comment.id === payload.commentId) {
+         if (comment.id === payload.commentId) {
             return { ...comment, content: payload.content };
           } else {
             return comment;
